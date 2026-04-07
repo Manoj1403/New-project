@@ -52,7 +52,9 @@
                     echo "<td>".$row['name']."</td>";
                     echo "<td>".$row['email']."</td>";
                     echo "<td>
-                            <a href='delete.php?id=".$row['id']."' class='btn btn-danger btn-sm'>Delete</a>
+
+                            <a href='delete.php?id=".$row['id']."' class='btn btn-danger btn-sm' onclick=\"return confirm('Are you sure?')\">Delete</a>
+
                           </td>";
                     echo "</tr>";
                 }
