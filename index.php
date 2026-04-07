@@ -1,10 +1,10 @@
 <?php include 'db.php'; ?>
-
+Connect to the  EC2 with ci cd pipeline
 <h2>User List</h2>
 
 <form action="add.php" method="POST">
-    Name: <input type="text" name="name" required>
-    Email: <input type="email" name="email" required>
+    <b>Name:</b> <input type="text" name="name" required>
+    <b>Email:</b> <input type="email" name="email" required>
     <button type="submit">Add User</button>
 </form>
 
