@@ -17,5 +17,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            git config --global --add safe.directory /var/www/html/New-project
             cd /var/www/html
             git pull origin main
