@@ -18,5 +18,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             git config --global --add safe.directory /var/www/html/New-project
-            cd /var/www/html
+            cd /var/www/html/New-project
             git pull origin main
