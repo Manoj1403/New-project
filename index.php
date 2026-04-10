@@ -1,70 +1,128 @@
-<?php include 'db.php'; ?>
+<?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+}
+include 'db.php';
+?>
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>User Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins';
+            background: #291414;
+            color: white;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #738904, #a464e4);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        button {
+            padding: 10px;
+            background: #38bdf8;
+            border: none;
+            border-radius: 6px;
+            color: black;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #444;
+            text-align: left;
+        }
+
+        /* Card animation */
+        .card {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Table row hover */
+        tr:hover {
+            background: #1e293b;
+            transition: 0.3s;
+        }
+
+        /* Button hover */
+        button:hover {
+            transform: scale(1.05);
+            background: #0ea5e9;
+            transition: 0.3s;
+        }
+
+        /* Smooth input animation */
+        input {
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            transform: scale(1.05);
+            box-shadow: 0 0 8px #38bdf8;
+        }
+    </style>
 </head>
-<body class="bg-light">
 
-<div class="container mt-5">
+<body>
 
-    <div class="card shadow p-4">
-        <h2 class="text-center mb-4">🚀 CI/CD User Management</h2>
+    <div class="container">
+        <div class="card">
+            <h2>Dashboard 🚀</h2>
+            <p>Welcome: <?php echo $_SESSION['user']; ?> | <a href="logout.php">Logout</a></p>
 
-        <p class="text-center text-success">
-            Connect to EC2 with CI/CD Pipeline ✅
-        </p>
+            <form action="add.php" method="POST">
+                <input type="text" name="name" placeholder="Name">
+                <input type="email" name="email" placeholder="Email">
+                <button>Add</button>
+            </form>
 
-        <!-- Form -->
-        <form action="add.php" method="POST" class="row g-3">
-            <div class="col-md-5">
-                <input type="text" name="name" class="form-control" placeholder="Enter Name" required>
-            </div>
-
-            <div class="col-md-5">
-                <input type="email" name="email" class="form-control" placeholder="Enter Email" required>
-            </div>
-
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">Add</button>
-            </div>
-        </form>
-
-        <hr>
-
-        <!-- Table -->
-        <table class="table table-bordered table-hover mt-3">
-            <thead class="table-dark">
+            <table>
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th width="120">Action</th>
+                    <th>Action</th>
                 </tr>
-            </thead>
 
-            <tbody>
                 <?php
                 $result = $conn->query("SELECT * FROM users");
-
-                while($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>".$row['name']."</td>";
-                    echo "<td>".$row['email']."</td>";
-                    echo "<td>
-
-                            <a href='delete.php?id=".$row['id']."' class='btn btn-danger btn-sm' onclick=\"return confirm('Are you sure?')\">Delete</a>
-
-                          </td>";
-                    echo "</tr>";
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                        <td>{$row['name']}</td>
+                        <td>{$row['email']}</td>
+                        <td><a href='delete.php?id={$row['id']}'>Delete</a></td>
+                      </tr>";
                 }
                 ?>
-            </tbody>
-        </table>
-
+            </table>
+        </div>
     </div>
 
-</div>
-
 </body>
+
 </html>
